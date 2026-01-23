@@ -5,7 +5,7 @@
 #include "../oled/i2c_helper.h"
 #include "ssd1306.h"
 
-char Rows[] = {'0', '1', '2', '3', '4', '5', '6', '7'};
+char Rows[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C'};
 int n = sizeof(Rows) / sizeof(Rows[0]);
 
 int main(void) {
@@ -19,12 +19,12 @@ int main(void) {
             DrawHorizontalLine(i * 8, 0, 127);
         }
         for(int i = 0; i < 130; i = i + 10){
-            SetCursor(i - 5, 1);
-            char ColChar = '0' + i / 10;
-            DrawChar(ColChar);
+            if( i != 0){
+                SetCursor(i + 2, 0);
+                DrawChar(Rows[i / 10]);
+            }
             DrawVerticalLine(i, 1, 64);
         }
-        //DrawHorizontalLine(1, 0, 127);
         DisplayUpdate();
     }
 }
