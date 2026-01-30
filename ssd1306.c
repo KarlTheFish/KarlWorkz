@@ -132,7 +132,9 @@ void DisplayInit(void) {
     SendCommand(0x3F);    // 0 - 32
 
     SendCommand(SSD1306_SETDISPLAYOFFSET);
-    SendCommand(0x37);                              // no offset
+    SendCommand(0x38);                              // Offset of 56d so page 0 appears on the top
+
+    //SendCommand(0x00);
 
     SendCommand(SSD1306_SETSTARTLINE);// | 0x0);    // line #0
 
