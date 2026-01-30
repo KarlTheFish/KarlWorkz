@@ -13,6 +13,7 @@ int main(void) {
     DisplayInit();
     while(true){
         DisplayClear();
+        //DisplayInvert();
         for(int i = 0; i < 8; i++){
             SetCursor(5, i);
             DrawChar(Rows[i]);

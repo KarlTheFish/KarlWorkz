@@ -144,4 +144,12 @@ void DrawVerticalLine(uint8_t x, uint8_t y1, uint8_t y2);
 */
 void DrawHorizontalLine(uint8_t y, uint8_t x1, uint8_t x2);
 
+/* 
+    \brief Inverts the display
+
+    \param None
+    \return None
+*/
+void DisplayInvert(void);
+
 #endif /* SSD1306_H */

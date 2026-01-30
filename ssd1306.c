@@ -251,3 +251,9 @@ void DrawStr(const char* str) {
         DrawChar(*str);
     } 
 }
+
+//Invert display
+void DisplayInvert(){
+    SendCommand(SSD1306_INVERTDISPLAY);
+    SendCommand(0xA7);
+}
