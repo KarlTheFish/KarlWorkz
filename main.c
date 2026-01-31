@@ -13,21 +13,46 @@ int main(void) {
     DisplayInit();
     while(true){
         DisplayClear();
-        //DisplayInvert();
-        for(int i = 0; i < 8; i++){
-            SetCursor(5, i);
-            DrawChar(Rows[i]);
-            DrawHorizontalLine(i * 8, 0, 127);
-        }
-        for(int i = 0; i < 130; i = i + 10){
-            if( i != 0){
-                SetCursor(i + 2, 0);
-                DrawChar(Rows[i / 10]);
-            }
-            DrawVerticalLine(i, 1, 64);
-        }
+        DisplayInvert();
+        //GridTest();
+        LineWidthTest();
         DisplayUpdate();
     }
 }
 
-//Problem seems to be in y, LCDHEIGHT limit
+/*
+    \brief Tests functionality of DrawChar and DrawPixel by drawing a grid of horizontal and vertical lines with grid number
+
+    \param none
+    \return none
+*/
+
+void GridTest(){
+    for(int i = 0; i < 8; i++){
+        SetCursor(5, i);
+        DrawChar(Rows[i]);
+        DrawHorizontalLine(i * 8, 0, 127);
+    }
+    for(int i = 0; i < 130; i = i + 10){
+        if( i != 0){
+            SetCursor(i + 2, 0);
+            DrawChar(Rows[i / 10]);
+        }
+        DrawVerticalLine(i, 1, 64);
+    }
+}
+
+/*
+    \brief Tests functionality of changing line widths
+    \param none
+    \return none
+*/
+
+void LineWidthTest(){
+    SetLineWidth(8);
+    DrawVerticalLine(67, 0, 63);
+    DrawHorizontalLine(4, 0, 120);
+    SetLineWidth(4);
+    DrawVerticalLine(23, 0, 63);
+    DrawHorizontalLine(40, 20, 127);
+}

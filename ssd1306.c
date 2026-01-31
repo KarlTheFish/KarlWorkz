@@ -117,6 +117,8 @@ const uint8_t ascii[ASCII_SYMBOLS][FONT_SIZE] = {
 uint8_t cache[CACHE_SIZE];
 size_t cache_cursor = 0;
 
+uint8_t lineWidth = 0;
+
 void SendCommand(uint8_t cmd) {
     SendSingleByte(SSD1306_ADDR, CTRL_BYTE, cmd);
 }
@@ -132,7 +134,7 @@ void DisplayInit(void) {
     SendCommand(0x3F);    // 0 - 32
 
     SendCommand(SSD1306_SETDISPLAYOFFSET);
-    SendCommand(0x38);                              // Offset of 56d so page 0 appears on the top
+    SendCommand(0x39);                              // Offset of 56d so page 0 appears on the top
 
     //SendCommand(0x00);
 
@@ -172,6 +174,8 @@ void DisplayInit(void) {
     SendCommand(0xB0);  // set page address     (B0-B7)
     SendCommand(0x00);  // set low col address  (00-0F)
     SendCommand(0x10);  // set high col address (10-1F)
+
+    SetLineWidth(1);
 }
 
 void DisplayOn(void) {
@@ -223,14 +227,24 @@ void Swap(uint8_t* val1, uint8_t* val2) {
 }
 
 void DrawVerticalLine(uint8_t x, uint8_t y1, uint8_t y2) {
-    for (Swap(&y1, &y2); y1 <= y2; y1++) {
+    uint8_t y1OG = y1;
+    for(int i = 0; i < lineWidth; i++){
+        for (Swap(&y1, &y2); y1 <= y2; y1++) {
         DrawPixel(x, y1, false);
+        }
+        x++;
+        y1 = y1OG;
     }
 }
 
 void DrawHorizontalLine(uint8_t y, uint8_t x1, uint8_t x2) {
-    for (Swap(&x1, &x2); x1 <= x2; x1++) {
-        DrawPixel(x1, y, false);
+    uint8_t x1OG = x1;
+    for(int i = 0; i < lineWidth; i++){
+        for (Swap(&x1, &x2); x1 <= x2; x1++) {
+            DrawPixel(x1, y, false);
+        }
+        y++;
+        x1 = x1OG;
     }
 }
 
@@ -256,4 +270,24 @@ void DrawStr(const char* str) {
 void DisplayInvert(){
     SendCommand(SSD1306_INVERTDISPLAY);
     SendCommand(0xA7);
+}
+
+//Set line width
+void SetLineWidth(uint8_t w){
+    if(w > 8 || w < 1){return; }
+    lineWidth = w;
+}
+
+//Easter egg!
+//Also serves as a general test of functionality
+// TODO: Make it test all functions
+void ScreenKarl(){
+    DisplayInvert();
+    SetLineWidth(6);
+    DrawHorizontalLine(3, 0, 127);
+    DrawHorizontalLine(57, 0, 127);
+    SetCursor(12, 3);
+    DrawStr("Life is worth living");
+    SetCursor(12, 4);
+    DrawStr("Keep Going");
 }

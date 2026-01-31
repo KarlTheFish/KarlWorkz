@@ -152,4 +152,12 @@ void DrawHorizontalLine(uint8_t y, uint8_t x1, uint8_t x2);
 */
 void DisplayInvert(void);
 
+/*
+    \brief Set line width
+
+    \param w Line width in range (from 1 to 8 inclusively)
+    \return None
+*/
+void SetLineWidth(uint8_t w);
+
 #endif /* SSD1306_H */
